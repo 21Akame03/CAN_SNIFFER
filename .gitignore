@@ -42,6 +42,10 @@
 *.idb
 *.pdb
 
+/main/build
+/Bolt/env
+/build
+
 # Kernel Module Compile Results
 *.mod*
 *.cmd
