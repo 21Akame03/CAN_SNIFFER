@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import time
 from collections import Counter, deque
-from dataclasses import dataclass
-from typing import Any, Callable, Deque, Dict, Iterable, List, Optional
+from dataclasses import dataclass, field
+from typing import Any, Callable, Deque, Dict, Iterable, List, Optional, Tuple
 
 from nicegui.elements.dark_mode import DarkMode
+
+from dbc import decode_frame as dbc_decode
 
 # Maximum number of frames kept in memory and displayed in the table
 _MAX_FRAMES = 500
@@ -26,6 +28,8 @@ class CanFrame:
     dlc: int
     data_bytes: List[int]
     raw: str
+    message_name: Optional[str] = None
+    decoded_signals: List[Tuple[str, str]] = field(default_factory=list)
 
     @property
     def id_hex(self) -> str:
@@ -46,6 +50,18 @@ class CanFrame:
         if self.rtr:
             flags.append('RTR')
         return ', '.join(flags) if flags else '—'
+
+    @property
+    def message_label(self) -> str:
+        if self.message_name:
+            return self.message_name
+        return '—'
+
+    @property
+    def decoded_label(self) -> str:
+        if not self.decoded_signals:
+            return '—'
+        return '; '.join(f"{name}={value}" for name, value in self.decoded_signals)
 
 
 _frame_history: Deque[CanFrame] = deque(maxlen=_MAX_FRAMES)
@@ -160,6 +176,9 @@ def append_can_frame(frame: Dict[str, Any]) -> None:
     data_bytes = _coerce_data_bytes(frame.get('data'), dlc)
     raw = str(frame.get('raw') or frame.get('raw_line') or frame.get('raw_text') or '')
 
+    decoded = dbc_decode(identifier, data_bytes, extended=extended)
+    message_name, decoded_signals = _extract_decoded(decoded)
+
     _frame_seq += 1
     can_frame = CanFrame(
         seq=_frame_seq,
@@ -171,6 +190,8 @@ def append_can_frame(frame: Dict[str, Any]) -> None:
         dlc=dlc,
         data_bytes=data_bytes,
         raw=raw,
+        message_name=message_name,
+        decoded_signals=decoded_signals,
     )
 
     _frame_history.append(can_frame)
@@ -291,6 +312,8 @@ def _push_table_update() -> None:
                 'dlc': frame.dlc,
                 'data': ' '.join(frame.data_hex_pairs) if frame.data_hex_pairs else '—',
                 'flags': frame.flags_label,
+                'message': frame.message_label,
+                'signals': frame.decoded_label,
             }
         )
     try:
@@ -320,9 +343,44 @@ def _matches_filter(frame: CanFrame) -> bool:
         ' '.join(frame.data_hex_pairs).lower(),
         frame.flags_label.lower(),
         frame.raw.lower(),
+        frame.message_label.lower() if frame.message_name else '',
+        frame.decoded_label.lower() if frame.decoded_signals else '',
     ]
     token = _filter_text
     return any(token in fragment for fragment in haystack)
+
+
+def refresh_decoded_frames() -> None:
+    """Re-apply DBC decoding to the stored frame history."""
+    if not _frame_history:
+        return
+    for frame in list(_frame_history):
+        decoded = dbc_decode(frame.identifier, frame.data_bytes, extended=frame.extended)
+        message_name, decoded_signals = _extract_decoded(decoded)
+        frame.message_name = message_name
+        frame.decoded_signals = decoded_signals
+    _push_table_update()
+
+
+def _extract_decoded(decoded: Any) -> Tuple[Optional[str], List[Tuple[str, str]]]:
+    message_name: Optional[str] = None
+    decoded_signals: List[Tuple[str, str]] = []
+    if not isinstance(decoded, dict):
+        return message_name, decoded_signals
+
+    raw_name = decoded.get('message_name')
+    if isinstance(raw_name, str) and raw_name.strip():
+        message_name = raw_name.strip()
+
+    raw_signals = decoded.get('signals')
+    if isinstance(raw_signals, list):
+        for entry in raw_signals:
+            if not isinstance(entry, (list, tuple)) or len(entry) != 2:
+                continue
+            name, value = entry
+            decoded_signals.append((str(name), str(value)))
+
+    return message_name, decoded_signals
 
 
 __all__ = [
@@ -342,4 +400,5 @@ __all__ = [
     'set_filter',
     'toggle_dark_mode',
     'top_identifier_stats',
+    'refresh_decoded_frames',
 ]

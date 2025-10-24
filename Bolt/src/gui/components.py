@@ -16,8 +16,10 @@ def make_can_table() -> Tuple[ui.table, TableUpdater]:
         {'name': 'timestamp', 'label': 'Time (ms)', 'field': 'timestamp', 'align': 'left', 'sortable': True},
         {'name': 'id_hex', 'label': 'ID (hex)', 'field': 'id_hex', 'align': 'left', 'sortable': True},
         {'name': 'id_dec', 'label': 'ID (dec)', 'field': 'id_dec', 'align': 'left', 'sortable': True},
+        {'name': 'message', 'label': 'Message', 'field': 'message', 'align': 'left', 'sortable': True},
         {'name': 'dlc', 'label': 'DLC', 'field': 'dlc', 'align': 'right', 'sortable': True},
         {'name': 'data', 'label': 'Data', 'field': 'data', 'align': 'left'},
+        {'name': 'signals', 'label': 'Decoded Signals', 'field': 'signals', 'align': 'left'},
         {'name': 'flags', 'label': 'Flags', 'field': 'flags', 'align': 'left'},
     ]
 
