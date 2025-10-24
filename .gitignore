@@ -45,6 +45,7 @@
 /main/build
 /Bolt/env
 /build
+/.cache
 
 # Kernel Module Compile Results
 *.mod*

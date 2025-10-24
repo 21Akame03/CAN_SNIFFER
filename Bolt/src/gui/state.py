@@ -2,17 +2,20 @@
 
 from __future__ import annotations
 
+import re
 import time
 from collections import Counter, deque
 from dataclasses import dataclass, field
 from typing import Any, Callable, Deque, Dict, Iterable, List, Optional, Tuple
-
+from nicegui import ui
 from nicegui.elements.dark_mode import DarkMode
 
-from dbc import decode_frame as dbc_decode
+from dbc import decode_frame as dbc_decode, list_dbcs
 
 # Maximum number of frames kept in memory and displayed in the table
 _MAX_FRAMES = 500
+# Maximum age (in milliseconds) to keep frames once fresher data arrives
+_MAX_FRAME_AGE_MS = 60_000
 # Maximum number of log lines kept in the console
 _MAX_LOG_LINES = 400
 
@@ -83,6 +86,8 @@ _connection_state: Dict[str, Any] = {
 _log_buffer: Deque[str] = deque(maxlen=_MAX_LOG_LINES)
 _dark_mode_controller: Optional[DarkMode] = None
 _dark_mode_enabled: bool = True
+_dbc_status_label: Optional[Any] = None
+_dbc_container: Optional[Any] = None
 
 
 def register_table_updater(fn: Callable[[List[Dict[str, Any]]], None]) -> None:
@@ -110,6 +115,13 @@ def register_log(write: Callable[[str], None], clear: Callable[[], None]) -> Non
 def register_connection_indicator(label: Any) -> None:
     _connection_labels.append(label)
     _apply_connection_state()
+
+
+def register_dbc_listing(status_label: Any, container: Any) -> None:
+    global _dbc_status_label, _dbc_container
+    _dbc_status_label = status_label
+    _dbc_container = container
+    refresh_dbc_listing()
 
 
 def set_connection_state(connected: bool, message: str) -> None:
@@ -196,6 +208,7 @@ def append_can_frame(frame: Dict[str, Any]) -> None:
 
     _frame_history.append(can_frame)
     _id_counts[identifier] += 1
+    _prune_stale_frames(can_frame.relative_ms)
     _last_frame_monotonic = time.monotonic()
     _push_table_update()
     _push_chart_update()
@@ -212,16 +225,45 @@ def _coerce_data_bytes(raw: Any, dlc: int) -> List[int]:
         except Exception:
             values = []
     else:
-        text = str(raw).replace(' ', '').replace('-', '').replace('_', '')
-        values = []
-        for i in range(0, len(text), 2):
-            try:
-                values.append(int(text[i : i + 2], 16) & 0xFF)
-            except Exception:
-                break
+        text = str(raw)
+        if not text:
+            values = []
+        else:
+            values = []
+            for token in re.findall(r'0x[0-9a-fA-F]+|[0-9a-fA-F]{1,}', text):
+                chunk = token.strip()
+                if not chunk:
+                    continue
+                if chunk.lower().startswith('0x'):
+                    chunk = chunk[2:]
+                if not chunk:
+                    continue
+                if len(chunk) % 2:
+                    chunk = '0' + chunk
+                for i in range(0, len(chunk), 2):
+                    try:
+                        values.append(int(chunk[i : i + 2], 16) & 0xFF)
+                    except ValueError:
+                        break
     if dlc > 0:
         return values[:dlc]
     return values[:8]
+
+
+def _prune_stale_frames(reference_ms: float) -> None:
+    if reference_ms is None or reference_ms <= 0:
+        return
+    cutoff = reference_ms - _MAX_FRAME_AGE_MS
+    if cutoff <= 0:
+        return
+
+    while _frame_history and _frame_history[0].relative_ms < cutoff:
+        old_frame = _frame_history.popleft()
+        count = _id_counts.get(old_frame.identifier, 0)
+        if count > 1:
+            _id_counts[old_frame.identifier] = count - 1
+        elif old_frame.identifier in _id_counts:
+            del _id_counts[old_frame.identifier]
 
 
 def set_filter(text: str) -> None:
@@ -362,6 +404,47 @@ def refresh_decoded_frames() -> None:
     _push_table_update()
 
 
+def refresh_dbc_listing() -> None:
+    global _dbc_status_label, _dbc_container
+    label = _dbc_status_label
+    container = _dbc_container
+    if label is None or container is None:
+        return
+
+    try:
+        entries = list_dbcs()
+    except Exception:
+        entries = []
+
+    try:
+        container.clear()
+    except Exception:
+        _dbc_status_label = None
+        _dbc_container = None
+        return
+
+    if not entries:
+        try:
+            label.set_text('No DBC files loaded')
+        except Exception:
+            pass
+        return
+
+    try:
+        label.set_text(f'{len(entries)} file(s) loaded')
+    except Exception:
+        pass
+
+    try:
+        with container:
+            for entry in entries:
+                name = str(entry.get('name') or 'Unnamed')
+                count = int(entry.get('messages') or 0)
+                ui.label(f'{name} — {count} messages').classes('text-sm text-neutral-700 dark:text-neutral-200')
+    except Exception:
+        pass
+
+
 def _extract_decoded(decoded: Any) -> Tuple[Optional[str], List[Tuple[str, str]]]:
     message_name: Optional[str] = None
     decoded_signals: List[Tuple[str, str]] = []
@@ -391,6 +474,7 @@ __all__ = [
     'dark_mode_enabled',
     'register_chart_updater',
     'register_connection_indicator',
+    'register_dbc_listing',
     'register_dark_mode_controller',
     'register_log',
     'register_table_updater',
@@ -401,4 +485,5 @@ __all__ = [
     'toggle_dark_mode',
     'top_identifier_stats',
     'refresh_decoded_frames',
+    'refresh_dbc_listing',
 ]

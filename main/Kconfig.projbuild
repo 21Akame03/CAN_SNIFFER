@@ -1,0 +1,51 @@
+menu "CAN Sniffer"
+
+choice CAN_SNIFFER_LOG_LEVEL
+    prompt "Default log level for CAN Sniffer components"
+    default CAN_SNIFFER_LOG_LEVEL_INFO
+    help
+        Select the logging verbosity used by the core CAN Sniffer tasks. You can
+        still override individual tags at runtime with `esp_log_level_set()`.
+
+    config CAN_SNIFFER_LOG_LEVEL_ERROR
+        bool "Error"
+    config CAN_SNIFFER_LOG_LEVEL_WARN
+        bool "Warn"
+    config CAN_SNIFFER_LOG_LEVEL_INFO
+        bool "Info"
+    config CAN_SNIFFER_LOG_LEVEL_DEBUG
+        bool "Debug"
+    config CAN_SNIFFER_LOG_LEVEL_VERBOSE
+        bool "Verbose"
+endchoice
+
+config CAN_SNIFFER_OVERRIDE_GLOBAL_LOG_LEVEL
+    bool "Apply selected log level to all log tags"
+    default n
+    help
+        When enabled, the configured log level is applied globally using
+        `esp_log_level_set("*", level)`. Disable this if you only want the CAN
+        Sniffer components to change their verbosity.
+
+config CAN_SNIFFER_DEBUG_STARTUP_SUMMARY
+    bool "Emit startup health summary"
+    default y
+    help
+        Print a detailed health report after initialisation, including the state
+        of each subsystem and any error flags that were set.
+
+config CAN_SNIFFER_DEBUG_TASK_EVENTS
+    bool "Log task creation results"
+    default y
+    help
+        Emit informational messages whenever CAN Sniffer tasks are created or if
+        their creation fails. Helps track RTOS scheduling issues.
+
+config CAN_SNIFFER_DEBUG_TWAI_ALERT_DETAILS
+    bool "Log detailed TWAI status on alerts"
+    default n
+    help
+        Collect and print extended TWAI driver status information whenever an
+        alert is triggered. Useful when diagnosing bus-level faults.
+
+endmenu

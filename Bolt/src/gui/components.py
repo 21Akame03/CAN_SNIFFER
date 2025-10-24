@@ -27,8 +27,12 @@ def make_can_table() -> Tuple[ui.table, TableUpdater]:
         columns=columns,
         rows=[],
         row_key='seq',
-        pagination={'rowsPerPage': 20, 'rowsNumber': 0},
-    ).classes('w-full text-sm dark:bg-slate-900 dark:text-gray-100').props('dense flat wrap-cells')
+        pagination={'rowsPerPage': 0, 'rowsNumber': 0},
+    ).classes(
+        'w-full text-sm dark:bg-slate-900 dark:text-gray-100 max-h-[420px] overflow-y-auto'
+    ).props('dense flat wrap-cells hide-bottom virtual-scroll')
+
+    table.style('height: 420px')
 
     def update(rows: List[Dict[str, str]]) -> None:
         table.rows = rows

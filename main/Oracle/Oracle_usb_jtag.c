@@ -11,7 +11,7 @@
 #include <inttypes.h>
 #include <string.h>
 
-#define ORACLE_QUEUE_LENGTH 64
+#define ORACLE_QUEUE_LENGTH 1024
 #define ORACLE_LOG_TAG "[ORACLE_JTAG]"
 
 static QueueHandle_t s_frame_queue;
@@ -71,6 +71,12 @@ bool Oracle_QueueFrame(const twai_message_t *msg, uint64_t timestamp_us) {
 
     BaseType_t status = xQueueSend(s_frame_queue, &frame, 0);
     if (status != pdTRUE) {
+        oracle_can_frame_t discarded;
+        // Drop the oldest frame so the newest data keeps flowing when saturated.
+        if (xQueueReceive(s_frame_queue, &discarded, 0) == pdTRUE) {
+            status = xQueueSend(s_frame_queue, &frame, 0);
+        }
+
         s_dropped_frames++;
         static uint32_t last_warn_ms;
         uint32_t now_ms = (uint32_t)(xTaskGetTickCount() * portTICK_PERIOD_MS);
@@ -78,7 +84,8 @@ bool Oracle_QueueFrame(const twai_message_t *msg, uint64_t timestamp_us) {
             ESP_LOGW(ORACLE_LOG_TAG, "Dropping CAN frames: total=%" PRIu32, s_dropped_frames);
             last_warn_ms = now_ms;
         }
-        return false;
+
+        return status == pdTRUE;
     }
 
     return true;

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any
 
 from nicegui import events, ui
 
@@ -42,35 +42,37 @@ def _build_connection_card() -> None:
         ui.separator()
         with ui.row().classes('w-full items-end gap-3 flex-wrap'):
             port_select = ui.select(
-                options=[],
+                options={},
                 label='Port',
                 with_input=True,
-            ).props('emit-value map-options').classes('min-w-[200px]')
-            baud_input = ui.number(label='Baud rate', value=921600, format='%.0f').props('step=1200')
+            ).classes('min-w-[200px]')
+            baud_input = ui.number(label='Baud rate', value=115200, format='%.0f').props('step=1200')
             message_label = ui.label('').classes('text-sm text-neutral-500 dark:text-neutral-300 grow')
 
             async def refresh_ports(_: Any = None) -> None:
                 ports = serial_handler.list_ports()
-                options: List[Dict[str, Any]] = [
-                    {'value': dev, 'label': f'{dev} — {desc}'}
-                    for dev, desc in ports
-                ]
-                if not options:
+                option_map = {f'{dev} — {desc}': dev for dev, desc in ports}
+                if not option_map:
                     message_label.set_text('No serial ports found')
                 else:
-                    message_label.set_text(f'Found {len(options)} port(s)')
-                port_select.options = options
-                if options and not port_select.value:
-                    port_select.value = options[0]['value']
+                    message_label.set_text(f'Found {len(option_map)} port(s)')
+                port_select.options = option_map
+                if option_map:
+                    values = list(option_map.values())
+                    if port_select.value not in values:
+                        port_select.value = values[0]
                 await port_select.update()
 
             async def connect(_: Any = None) -> None:
                 port = port_select.value
+                options = port_select.options or {}
+                if isinstance(options, dict) and port in options:
+                    port = options[port]
                 baud = int(baud_input.value or 0)
                 if not port:
                     ui.notify('Select a port before connecting', color='negative')
                     return
-                ok, msg = serial_handler.connect(port, baud if baud > 0 else 921600)
+                ok, msg = serial_handler.connect(port, baud if baud > 0 else 115200)
                 ui.notify(msg, color='positive' if ok else 'negative')
                 st.append_log(msg)
                 if ok:
@@ -98,26 +100,14 @@ def _build_dbc_section() -> None:
 
         status_label = ui.label('No DBC files loaded').classes('text-sm text-neutral-500 dark:text-neutral-300')
         file_container = ui.column().classes('w-full gap-1')
-
-        def refresh_listing() -> None:
-            file_container.clear()
-            entries = list_dbcs()
-            if not entries:
-                status_label.set_text('No DBC files loaded')
-                return
-            status_label.set_text(f'{len(entries)} file(s) loaded')
-            with file_container:
-                for entry in entries:
-                    name = str(entry.get('name') or 'Unnamed')
-                    count = int(entry.get('messages') or 0)
-                    ui.label(f'{name} — {count} messages').classes('text-sm text-neutral-700 dark:text-neutral-200')
+        st.register_dbc_listing(status_label, file_container)
 
         def handle_clear(_: Any = None) -> None:
             clear_dbcs()
             st.append_log('Cleared loaded DBC files')
             ui.notify('Cleared all DBC files', color='warning')
             st.refresh_decoded_frames()
-            refresh_listing()
+            st.refresh_dbc_listing()
 
         async def handle_upload(event: events.UploadEventArguments) -> None:
             data = event.content.read()
@@ -127,14 +117,12 @@ def _build_dbc_section() -> None:
             st.append_log(message)
             ui.notify(message, color='positive' if ok else 'negative')
             st.refresh_decoded_frames()
-            refresh_listing()
+            st.refresh_dbc_listing()
 
         with ui.row().classes('w-full items-center gap-3 flex-wrap mt-2'):
             upload = ui.upload(label='Add DBC', on_upload=handle_upload, multiple=True, auto_upload=True)
             upload.props('accept=.dbc,.DBC').classes('max-w-full')
             ui.button('Clear DBCs', on_click=handle_clear).props('flat color=warning')
-
-        refresh_listing()
 
 
 def _build_filters_and_actions() -> None:

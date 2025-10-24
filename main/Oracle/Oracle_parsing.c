@@ -22,13 +22,13 @@ size_t Oracle_FormatCANFrame(const oracle_can_frame_t *frame, char *buffer, size
     int written = snprintf(
         buffer,
         buffer_len,
-        "{\"type\":\"%s\",\"ts_us\":%" PRIu64 ",\"id\":%u,\"ext\":%s,\"rtr\":%s,\"dlc\":%u,\"data\":\"%s\"}\n",
+        "{\"type\":\"%s\",\"ts_us\":%" PRIu64 ",\"id\":%" PRIu32 ",\"ext\":%s,\"rtr\":%s,\"dlc\":%u,\"data\":\"%s\"}\n",
         ORACLE_JSON_TYPE,
         frame->timestamp_us,
         msg->identifier,
         msg->extd ? "true" : "false",
         msg->rtr ? "true" : "false",
-        dlc,
+        (unsigned)dlc,
         data_hex);
 
     if (written < 0) {
