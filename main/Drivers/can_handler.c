@@ -1,5 +1,7 @@
 #include "can_handler.h"
+#include "ENV_variables.h"
 #include "Oracle.h"
+#include "hal/twai_types_deprecated.h"
 #include "main.h"
 #include "sdkconfig.h"
 
@@ -20,7 +22,7 @@ static const char *TAG = "[CAN]";
 #define SN65HVD230_RX_GPIO GPIO_NUM_46
 #define SN65HVD230_STANDBY_GPIO GPIO_NUM_5
 
-static const twai_timing_config_t t_config = TWAI_TIMING_CONFIG_250KBITS();
+static const twai_timing_config_t t_config = CAN_BAUD;
 static const twai_filter_config_t f_config = TWAI_FILTER_CONFIG_ACCEPT_ALL();
 static const twai_general_config_t g_config = {
     .mode = TWAI_MODE_LISTEN_ONLY,

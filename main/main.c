@@ -61,6 +61,9 @@ bool SystemInitialised;
 // many errors
 System_health_Flags flags;
 
+// Forward declaration to allow use before definition
+static inline bool SystemHasError(const System_health_Flags *f);
+
 static const char *log_level_to_str(esp_log_level_t level) {
   switch (level) {
   case ESP_LOG_ERROR:
