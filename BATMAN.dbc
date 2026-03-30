@@ -1,0 +1,348 @@
+VERSION "1.0"
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: ECU BATMAN
+
+
+BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
+ SG_ SOH : 0|8@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 256 individual_temperature: 8 BATMAN
+ SG_ Mux M : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ cell_temp_1 m1 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_2 m1 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_3 m1 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_4 m1 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_5 m1 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_6 m2 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_7 m2 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_8 m2 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_9 m2 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_10 m2 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_11 m3 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_12 m3 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_13 m3 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_14 m3 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_15 m3 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_16 m4 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_17 m4 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_18 m4 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_19 m4 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_20 m4 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_21 m5 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_22 m5 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_23 m5 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_24 m5 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_25 m5 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_26 m6 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_27 m6 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_28 m6 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_29 m6 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_30 m6 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_31 m7 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_32 m7 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_33 m7 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_34 m7 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_35 m7 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_36 m8 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_37 m8 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_38 m8 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_39 m8 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_40 m8 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_41 m9 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_42 m9 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_43 m9 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_44 m9 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_45 m9 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_46 m10 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_47 m10 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_48 m10 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_49 m10 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_50 m10 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_51 m11 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_52 m11 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_53 m11 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_54 m11 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_55 m11 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_56 m12 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_57 m12 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_58 m12 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_59 m12 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_60 m12 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_61 m13 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_62 m13 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_63 m13 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_64 m13 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_65 m13 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_66 m14 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_67 m14 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_68 m14 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_69 m14 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_70 m14 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_71 m15 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_72 m15 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_73 m15 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_74 m15 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_75 m15 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_76 m16 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_77 m16 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_78 m16 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_79 m16 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_80 m16 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_81 m17 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_82 m17 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_83 m17 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_84 m17 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_85 m17 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_86 m18 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_87 m18 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_88 m18 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_89 m18 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_90 m18 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_91 m19 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_92 m19 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_93 m19 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_94 m19 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_95 m19 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_96 m20 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_97 m20 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_98 m20 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_99 m20 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_100 m20 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_101 m21 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_102 m21 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_103 m21 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_104 m21 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_105 m21 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_106 m22 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_107 m22 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_108 m22 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_109 m22 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_110 m22 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_111 m23 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_112 m23 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_113 m23 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_114 m23 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_115 m23 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_116 m24 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_117 m24 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_118 m24 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_119 m24 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_120 m24 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_121 m25 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_122 m25 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_123 m25 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_124 m25 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_125 m25 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_126 m26 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_127 m26 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_128 m26 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_129 m26 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_130 m26 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_131 m27 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_132 m27 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_133 m27 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_134 m27 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_135 m27 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_136 m28 : 8|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_137 m28 : 18|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_138 m28 : 28|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_139 m28 : 38|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+ SG_ cell_temp_140 m28 : 48|10@1+ (0.1,0) [0|102.3] "°C"  ECU
+
+BO_ 514 individual_voltages: 8 BATMAN
+ SG_ Mux M : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ cell_voltage_1 m1 : 8|10@1+ (0.01,0.001) [0.001|10.231] "V"  ECU
+ SG_ cell_voltage_2 m1 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_3 m1 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_4 m1 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_5 m1 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_6 m2 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_7 m2 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_8 m2 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_9 m2 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_10 m2 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_11 m3 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_12 m3 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_13 m3 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_14 m3 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_15 m3 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_16 m4 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_17 m4 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_18 m4 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_19 m4 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_20 m4 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_21 m5 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_22 m5 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_23 m5 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_24 m5 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_25 m5 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_26 m6 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_27 m6 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_28 m6 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_29 m6 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_30 m6 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_31 m7 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_32 m7 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_33 m7 : 28|10@1+ (0.01,0) [0|10.23] "V"  ECU
+ SG_ cell_voltage_34 m7 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_35 m7 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_36 m8 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_37 m8 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_38 m8 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_39 m8 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_40 m8 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_41 m9 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_42 m9 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_43 m9 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_44 m9 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_45 m9 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_46 m10 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_47 m10 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_48 m10 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_49 m10 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_50 m10 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_51 m11 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_52 m11 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_53 m11 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_54 m11 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_55 m11 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_56 m12 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_57 m12 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_58 m12 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_59 m12 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_60 m12 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_61 m13 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_62 m13 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_63 m13 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_64 m13 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_65 m13 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_66 m14 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_67 m14 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_68 m14 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_69 m14 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_70 m14 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_71 m15 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_72 m15 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_73 m15 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_74 m15 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_75 m15 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_76 m16 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_77 m16 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_78 m16 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_79 m16 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_80 m16 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_81 m17 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_82 m17 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_83 m17 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_84 m17 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_85 m17 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_86 m18 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_87 m18 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_88 m18 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_89 m18 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_90 m18 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_91 m19 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_92 m19 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_93 m19 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_94 m19 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_95 m19 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_96 m20 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_97 m20 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_98 m20 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_99 m20 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_100 m20 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_101 m21 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_102 m21 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_103 m21 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_104 m21 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_105 m21 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_106 m22 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_107 m22 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_108 m22 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_109 m22 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_110 m22 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_111 m23 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_112 m23 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_113 m23 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_114 m23 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_115 m23 : 48|10@1+ (0.01,0.001) [0.001|10.231] "V"  ECU
+ SG_ cell_voltage_116 m24 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_117 m24 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_118 m24 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_119 m24 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_120 m24 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_121 m25 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_122 m25 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_123 m25 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_124 m25 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_125 m25 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_126 m26 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_127 m26 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_128 m26 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_129 m26 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_130 m26 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_131 m27 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_132 m27 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_133 m27 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_134 m27 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_135 m27 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_136 m28 : 8|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_137 m28 : 18|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_138 m28 : 28|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_139 m28 : 38|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+ SG_ cell_voltage_140 m28 : 48|10@1+ (0.01,0.001) [0.001|10.23] "V"  ECU
+
+BO_ 409 Diagnostic_Code: 8 BATMAN
+ SG_ Cell_undervoltage : 61|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Cell_overvoltage : 60|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ System_health : 59|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Over_templimit : 58|1@1- (1,0) [0|0] ""  ECU
+ SG_ curr_sensor_loss : 57|1@1- (1,0) [0|0] ""  ECU
+ SG_ Battery_undervoltage : 56|1@1- (1,0) [0|0] ""  ECU
+ SG_ temp_sensor_loss : 55|1@1- (1,0) [0|0] ""  ECU
+ SG_ Charging_on : 54|1@1- (1,0) [0|0] ""  ECU
+ SG_ Battery_overvoltage : 53|1@1- (1,0) [0|0] ""  ECU
+ SG_ Voltage_sensor_loss : 52|1@1- (1,0) [0|0] ""  ECU
+ SG_ lost_comm : 51|1@1- (1,0) [0|0] ""  ECU
+ SG_ SOC : 43|8@1- (1,0) [0|0] ""  ECU
+ SG_ Highest_temp_recorded : 13|14@1+ (0.01,0) [0|163.83] "°C"  ECU
+ SG_ Overall_voltage : 0|13@1+ (0.1,0) [0|819.1] "V"  ECU
+ SG_ Curr_value : 27|16@1- (0.1,0) [-204.8|204.7] "A"  ECU
+
+
+
+CM_ BO_ 3221225472 "This is a message for not used signals, created by Vector CANdb++ DBC OLE DB Provider.";
+

@@ -18,14 +18,36 @@
 
 static const char *TAG = "[CAN]";
 
-#define SN65HVD230_TX_GPIO GPIO_NUM_9
-#define SN65HVD230_RX_GPIO GPIO_NUM_46
+#if CAN_ACK_MODE
+#define TWAI_OPERATING_MODE TWAI_MODE_NORMAL
+#else
+#define TWAI_OPERATING_MODE TWAI_MODE_LISTEN_ONLY
+#endif
+
+#define SN65HVD230_TX_GPIO GPIO_NUM_7
+#define SN65HVD230_RX_GPIO GPIO_NUM_6
 #define SN65HVD230_STANDBY_GPIO GPIO_NUM_5
 
-static const twai_timing_config_t t_config = CAN_BAUD;
 static const twai_filter_config_t f_config = TWAI_FILTER_CONFIG_ACCEPT_ALL();
-static const twai_general_config_t g_config = {
+
+/* Used only during baud-rate probing — always listen-only so the ESP32
+ * never corrupts bus traffic at wrong baud rates. */
+static const twai_general_config_t g_config_probe = {
     .mode = TWAI_MODE_LISTEN_ONLY,
+    .tx_io = SN65HVD230_TX_GPIO,
+    .rx_io = SN65HVD230_RX_GPIO,
+    .clkout_io = TWAI_IO_UNUSED,
+    .bus_off_io = TWAI_IO_UNUSED,
+    .tx_queue_len = 0,
+    .rx_queue_len = 8,
+    .alerts_enabled = 0,
+    .clkout_divider = 0,
+    .intr_flags = ESP_INTR_FLAG_LEVEL1,
+};
+
+/* Used for normal operation after baud rate is confirmed. */
+static const twai_general_config_t g_config = {
+    .mode = TWAI_OPERATING_MODE,
     .tx_io = SN65HVD230_TX_GPIO,
     .rx_io = SN65HVD230_RX_GPIO,
     .clkout_io = TWAI_IO_UNUSED,
@@ -41,6 +63,51 @@ static const twai_general_config_t g_config = {
 };
 
 static volatile bool s_bus_recovery_in_progress;
+
+/* --------------- Auto baud-rate detection --------------- */
+
+#define BAUD_PROBE_TIMEOUT_MS 600
+
+static const struct {
+  const char *label;
+  twai_timing_config_t timing;
+} s_baud_candidates[] = {
+    {"1Mbit",   TWAI_TIMING_CONFIG_1MBITS()  },
+    {"800kbit", TWAI_TIMING_CONFIG_800KBITS()},
+    {"500kbit", TWAI_TIMING_CONFIG_500KBITS()},
+    {"250kbit", TWAI_TIMING_CONFIG_250KBITS()},
+    {"125kbit", TWAI_TIMING_CONFIG_125KBITS()},
+    {"100kbit", TWAI_TIMING_CONFIG_100KBITS()},
+    {"50kbit",  TWAI_TIMING_CONFIG_50KBITS() },
+    {"25kbit",  TWAI_TIMING_CONFIG_25KBITS() },
+};
+
+/*
+ * Install the TWAI driver at the given timing, wait up to BAUD_PROBE_TIMEOUT_MS
+ * for one successful frame reception, then uninstall on failure.
+ * Returns true (driver stays installed+started) on success.
+ */
+static bool probe_baud(const twai_timing_config_t *t_cfg) {
+  if (twai_driver_install(&g_config_probe, t_cfg, &f_config) != ESP_OK) {
+    return false;
+  }
+  if (twai_start() != ESP_OK) {
+    twai_driver_uninstall();
+    return false;
+  }
+
+  twai_message_t msg;
+  bool found =
+      (twai_receive(&msg, pdMS_TO_TICKS(BAUD_PROBE_TIMEOUT_MS)) == ESP_OK);
+
+  if (!found) {
+    twai_stop();
+    twai_driver_uninstall();
+  }
+  return found;
+}
+
+/* -------------------------------------------------------- */
 
 void CAN_Setup(void) {
   gpio_config_t standby_cfg = {
@@ -60,21 +127,45 @@ void CAN_Setup(void) {
   // Drive RS pin low to keep the transceiver in high-speed mode.
   gpio_set_level(SN65HVD230_STANDBY_GPIO, 0);
 
-  if (twai_driver_install(&g_config, &t_config, &f_config) != ESP_OK) {
-    ESP_LOGE(TAG, "Failed to install TWAI driver");
-    flags.CAN_INTT_ERROR = true;
-    return;
+  ESP_LOGI(TAG, "Auto-detecting CAN baud rate (will retry until bus found)...");
+
+  const twai_timing_config_t *detected_timing = NULL;
+  uint32_t attempt = 0;
+  while (detected_timing == NULL) {
+    if (attempt > 0) {
+      ESP_LOGW(TAG, "No bus found, retrying (attempt %" PRIu32 ")...", attempt + 1);
+    }
+    for (size_t i = 0; i < sizeof(s_baud_candidates) / sizeof(s_baud_candidates[0]); ++i) {
+      ESP_LOGI(TAG, "  Trying %s ...", s_baud_candidates[i].label);
+      if (probe_baud(&s_baud_candidates[i].timing)) {
+        ESP_LOGI(TAG, "Detected baud rate: %s", s_baud_candidates[i].label);
+        detected_timing = &s_baud_candidates[i].timing;
+        break;
+      }
+    }
+    attempt++;
   }
 
-  if (twai_start() != ESP_OK) {
-    ESP_LOGE(TAG, "Failed to start TWAI driver");
+  /* Probe left the driver installed in listen-only mode. If the operating
+   * mode differs (ACK mode), reinstall now with the correct config. */
+#if CAN_ACK_MODE
+  twai_stop();
+  twai_driver_uninstall();
+  if (twai_driver_install(&g_config, detected_timing, &f_config) != ESP_OK ||
+      twai_start() != ESP_OK) {
+    ESP_LOGE(TAG, "Failed to reinstall TWAI in ACK mode");
     flags.CAN_INTT_ERROR = true;
     return;
   }
+#endif
 
   s_bus_recovery_in_progress = false;
 
-  ESP_LOGI(TAG, "TWAI started in listen-only mode (250 kbit/s)");
+#if CAN_ACK_MODE
+  ESP_LOGW(TAG, "TWAI started in ACK mode — ESP32 will ACK received frames");
+#else
+  ESP_LOGI(TAG, "TWAI started in listen-only mode");
+#endif
 }
 
 void twai_alert_task(void *args) {
@@ -115,7 +206,7 @@ void twai_alert_task(void *args) {
     }
 
     if (alerts & TWAI_ALERT_ARB_LOST) {
-      ESP_LOGW(TAG, "Arbitration lost (should not occur in listen-only mode)");
+      ESP_LOGW(TAG, "Arbitration lost");
     }
 
     if (alerts & TWAI_ALERT_ERR_PASS) {

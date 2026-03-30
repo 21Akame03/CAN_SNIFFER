@@ -7,6 +7,7 @@ idf_component_register(
         "Drivers/can_handler.c"
         "Oracle/Oracle_parsing.c"
         "Oracle/Oracle_usb_jtag.c"
+        "fake_can_gen.c"
     INCLUDE_DIRS
         "."
         "include"

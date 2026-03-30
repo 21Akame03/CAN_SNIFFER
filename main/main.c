@@ -41,6 +41,7 @@ Made by Ubdhot Ashitosh
 
 #include "ENV_variables.h"
 #include "can_handler.h"
+#include "fake_can_gen.h"
 #include "driver/gpio.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
@@ -259,6 +260,23 @@ void Start_schedule(void) {
 #endif
   } else if (Oracle_on) {
     ESP_LOGW(TAG, "Oracle Task will not start!");
+  }
+
+  if (DEMO_MODE && Oracle_on && !flags.ORACLE_INIT_ERROR) {
+    TaskHandle_t fake_handle = NULL;
+    BaseType_t fake_status =
+        xTaskCreate(FakeCAN_task, "fake_can", 4096, NULL, 3, &fake_handle);
+    if (fake_status != pdPASS) {
+      flags.RTOS_INIT_ERROR = true;
+      ESP_LOGE(TAG, "Failed to start FakeCAN_task (err=%ld)",
+               (long)fake_status);
+    }
+#if CONFIG_CAN_SNIFFER_DEBUG_TASK_EVENTS
+    else {
+      ESP_LOGI(TAG, "FakeCAN_task started (handle=%p, priority=%d)",
+               (void *)fake_handle, 3);
+    }
+#endif
   }
 }
 
